@@ -10,7 +10,7 @@ public class Main {
 
         User.Load();
 
-        music = new Music();
+        music = Music.getInstance();
         music.start();
         new GameFrame();
         //new MainMenu();

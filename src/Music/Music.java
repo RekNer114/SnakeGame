@@ -1,21 +1,16 @@
 package Music;
 import javax.sound.sampled.*;
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
-public class Music extends Thread{
-    private static Clip clip;
-    private static AudioInputStream str;
-    private static FloatControl control;
-    private static float  volume = -23;
+public class Music extends Thread {
+    private static Music instance;
+    private Clip clip;
+    private AudioInputStream str;
+    private FloatControl control;
+    private float volume = -23;
 
-
-    public static float getVolume() {
-        return volume;
-    }
-
-    public Music(){
+    private Music() {
         try {
             File mus1 = new File("Music/The Four Horsemen.wav");
             str = AudioSystem.getAudioInputStream(mus1);
@@ -26,24 +21,32 @@ public class Music extends Thread{
         } catch (UnsupportedAudioFileException | LineUnavailableException | IOException e) {
             throw new RuntimeException(e);
         }
-
     }
+
+    public static Music getInstance() {
+        if (instance == null) {
+            instance = new Music();
+        }
+        return instance;
+    }
+
     @Override
-    public void run(){
-            clip.start();
+    public void run() {
+        clip.start();
     }
 
-    public static void MusicStart(){
+    public void musicStart() {
         clip.start();
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    public static void MusicStop(){
-        clip.stop();
 
+    public void musicStop() {
+        clip.stop();
     }
-    public static void changeSong(String songPath){
+
+    public void changeSong(String songPath) {
         clip.close();
-       try {
+        try {
             str = AudioSystem.getAudioInputStream(new File(songPath));
             clip = AudioSystem.getClip();
             clip.open(str);
@@ -53,15 +56,14 @@ public class Music extends Thread{
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
-
-    public static void VolumeChange(JSlider slider){
-        volume = slider.getValue();
-
+    public void volumeChange(float newVolume) {
+        volume = newVolume;
         control.setValue(volume);
     }
-}
 
+    public float getVolume() {
+        return volume;
+    }
+}
