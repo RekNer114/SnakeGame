@@ -2,9 +2,9 @@ Player1 122
 Player1 28
 Player1 22
 Player1 19
+Michael 19
+Michael 19
 Player1 18
 Player1 16
 Player1 13
 Player1 13
-Player1 12
-Player1 12

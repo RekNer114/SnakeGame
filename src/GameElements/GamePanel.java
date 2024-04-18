@@ -11,10 +11,10 @@ import java.util.Random;
 
 import PausePanel.*;
 import ScoreSys.ScoreSystem;
-import User.User;
 
 
 public class GamePanel extends JPanel implements ActionListener {
+    private static GamePanel instance;
 
     private final int SCREEN_WIDTH = 750;
     private final int SCREEN_HEIGHT = 750;
@@ -44,11 +44,11 @@ public class GamePanel extends JPanel implements ActionListener {
    private final JFrame WorkingFrame;
 
 
-    //
 
 
-//constructor
-    GamePanel(JFrame WorkingFrame) {
+
+    //constructor
+    private GamePanel(JFrame WorkingFrame) {
         this.WorkingFrame = WorkingFrame;
         this.setFocusable(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -228,6 +228,8 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
 
+    //LOGIC
+    //check if snake eat apple
     private void checkApple() {
         if (x[0] == appleX && y[0] == appleY) {
             score++;
@@ -249,52 +251,44 @@ public class GamePanel extends JPanel implements ActionListener {
         if(e.getSource() == pausePanel.restart){
             pausePanel.setVisible(false);
             isPaused = false;
-            GameReStart();
+            GameRestart();
         }
 
 
         if(e.getSource() == pausePanel.leaderboard){
                 pausePanel.leaderBoard();
         }
-
-        //тут і починається піздєц
         if(e.getSource() == pausePanel.settings){
             pausePanel.Settings();
-
-
         }
-
         if(e.getSource()==pausePanel.exit){
             WorkingFrame.dispose();
-
         }
-
-
-
         if (running && !isPaused) {
             move();
             checkCollision();
             checkApple();
         }
-
-
         repaint();
-
-
     }
 
 
-    public void GameReStart(){
+    public void GameRestart(){
         bodyParts = 4;
         score = 0;
         Arrays.fill(x, 0);
         Arrays.fill(y, 0);
         dir = 'R';
-
         GameStart();
-
     }
 
+    public static GamePanel getInstance(JFrame WorkingFrame)
+    {
+        if (instance == null) {
+            instance = new GamePanel(WorkingFrame);
+        }
+        return instance;
+    }
     public class KeyAdapter extends java.awt.event.KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
@@ -315,7 +309,7 @@ public class GamePanel extends JPanel implements ActionListener {
             if (!running) {
                 if (e.getKeyCode() == KeyEvent.VK_SPACE) {
                     ovPan.setVisible(false);
-                    GameReStart();
+                    GameRestart();
                 }
             } else {
                 switch (e.getKeyCode()) {
@@ -340,8 +334,9 @@ public class GamePanel extends JPanel implements ActionListener {
                             dir = 'L';
                         }
                         break;
-//arrows control
                 }
+
+                //arrows control
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
                         if (dir != 'D') {

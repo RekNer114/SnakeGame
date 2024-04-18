@@ -19,7 +19,6 @@ public class GameOverPanel extends JPanel implements ActionListener {
     int strWidth;
 
     int red = 255;
-
     int green = 0;
     int blue = 0;
 
@@ -51,16 +50,10 @@ public class GameOverPanel extends JPanel implements ActionListener {
         g.setFont(new Font("Comic Sans MS", Font.ITALIC, 32));
         g.drawString("Press SPACE to restart", x, y);
 
-
-
-
-
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
 
         red = rand.nextInt(255);
         green = rand.nextInt(255);

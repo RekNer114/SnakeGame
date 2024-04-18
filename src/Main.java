@@ -13,7 +13,7 @@ public class Main {
         music = new Music();
         music.start();
         new GameFrame();
-        //new MainMenu();
+
 
     }
 
