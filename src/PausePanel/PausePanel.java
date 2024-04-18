@@ -17,7 +17,7 @@ import User.User;
 
 public class PausePanel extends JPanel implements ActionListener {
 
-
+    Music sound = Music.getInstance();
     //empty panels xD
     private final JPanel  empty_left;
     private final JPanel empty_right;
@@ -183,11 +183,11 @@ public class PausePanel extends JPanel implements ActionListener {
         music.addActionListener((e) ->{
             if(music.isSelected()){
                 music.setText("On");
-                Music.MusicStart();
+                sound.musicStart();
 
             }else{
                 music.setText("Off");
-                Music.MusicStop();
+                sound.getInstance().musicStop();
             }
 
         } );
@@ -203,7 +203,7 @@ public class PausePanel extends JPanel implements ActionListener {
                 JFileChooser chooser = new JFileChooser();
                 chooser.showOpenDialog(centerPanel);
                 System.out.println(chooser.getSelectedFile().getPath());
-                Music.changeSong(chooser.getSelectedFile().getPath());
+                sound.changeSong(chooser.getSelectedFile().getPath());
             });
             changeSong.setVisible(false);
 
@@ -211,12 +211,12 @@ public class PausePanel extends JPanel implements ActionListener {
             changeVolume = new JSlider(-40, 6);
             changeVolume.setVisible(false);
             changeVolume.setBackground(Color.BLACK);
-            changeVolume.setValue((int) Music.getVolume());
+            changeVolume.setValue((int) sound.getVolume());
             changeVolume.setBounds(165, 390, 150, 50);
             changeVolume.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Music.VolumeChange(changeVolume);
+                sound.volumeChange(changeVolume.getValue());
                 System.out.println(changeVolume.getValue());
             }
         });
